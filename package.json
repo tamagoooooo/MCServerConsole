@@ -1,0 +1,20 @@
+{
+  "name": "mcserverconsole",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "scripts": {
+    "dev": "bun src/index.ts"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "hono": "^4.12.3",
+    "next": "^16.1.6",
+    "zod": "^4.3.6"
+  }
+}
