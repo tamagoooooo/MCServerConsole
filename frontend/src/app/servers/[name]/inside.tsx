@@ -3,33 +3,6 @@ import { Sidebar } from "@/components/Sidebar";
 import { useEffect, useState } from "react";
 import Terminal from "@/components/Terminal";
 
-const metrics = [
-  {
-    label: "Status",
-    value: "12,543",
-    change: "+12.5% from last month",
-    positive: true,
-  },
-  {
-    label: "Revenue",
-    value: "$48,290",
-    change: "+8.2% from last month",
-    positive: true,
-  },
-  {
-    label: "Orders",
-    value: "1,234",
-    change: "+3.1% from last month",
-    positive: true,
-  },
-  {
-    label: "Active Now",
-    value: "573",
-    change: "+18 since last hour",
-    positive: false,
-  },
-];
-
 interface List {
   [key: string]: boolean;
 }
@@ -105,7 +78,7 @@ export default function Inside({ name }: { name: string }) {
           </button>
         </div>
 
-        <Terminal address={"ws://localhost:8080/api/servers/" + name} />
+        <Terminal address={"/api/servers/" + name} />
 
 
       </div>

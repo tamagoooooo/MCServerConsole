@@ -80,7 +80,7 @@ export class Instance {
   }
   start() {
     return new Promise<boolean>((resolve, reject) => {
-      if (this.alive()) reject({ "error": "Instance is online" });
+      if (this.alive()) resolve(false);
       this.process = cp.spawn(this.settings.start.command, this.settings.start.args, { cwd: `instances/${this.name}/minecraft` });
       this.process.stdout.on("data", (data) => {
         this.sendListener(data.toString());
@@ -88,15 +88,17 @@ export class Instance {
       this.process.stderr.on("data", (data) => {
         this.sendListener(data.toString());
       });
+      this.process.on("exit", () => {
+        this.process = null;
+      });
       resolve(true);
     })
   }
   stop() {
     return new Promise<boolean>((resolve, reject) => {
-      if (!this.alive()) reject({ "error": "Instance is offline" });
+      if (!this.alive()) resolve(false);
       this.process!.stdin.write(this.settings.commands.stop + "\n");
       this.process!.on("exit", () => {
-        this.process = null;
         resolve(true);
       });
     })

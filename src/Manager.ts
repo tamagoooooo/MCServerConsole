@@ -1,4 +1,4 @@
-import { InstanceManager } from "./instance";
+import { InstanceManager } from "./Instance";
 import { Proxy } from "./ProxyManager";
 
 export class Manager {

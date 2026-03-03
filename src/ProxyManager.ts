@@ -9,6 +9,7 @@ export class Proxy {
     this.addListener((data) => {
       this.log.push(data);
     });
+    this.start();
   }
   start() {
     return new Promise((resolve, reject) => {
@@ -19,6 +20,9 @@ export class Proxy {
           listener(data.toString());
         });
       });
+      this.process.on("exit", () => {
+        this.process = null;
+      });
       resolve(true);
     })
   }
@@ -27,7 +31,6 @@ export class Proxy {
       if (!this.alive()) reject({ "error": "Instance is offline" });
       this.process!.stdin.write("stop" + "\n");
       this.process!.on("exit", () => {
-        this.process = null;
         resolve(true);
       });
     })
@@ -37,6 +40,10 @@ export class Proxy {
   }
   addListener(listener: (data: string) => void) {
     this.listeners.push(listener);
+  }
+  send(data: string) {
+    if (!this.alive()) return;
+    this.process!.stdin.write(data + "\n");
   }
   getLog(limit = 50) {
     return this.log.slice(-limit);
